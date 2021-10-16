@@ -14,14 +14,14 @@ def main():
     """ Main Function of the Game """
     pygame.init()
 
-    size = (1300,700)                                       #Set size of Window
+    size = (1200,700)                                       #Set size of Window
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Crusader Dig")              #Title
 
     player  = Classes.Player()                              #Creates Instance of Player and Tunnel System
     tunnels = Classes.Tiles()
         
-    background = pygame.image.load("Level.png").convert()   #Uploads Images
+    background = pygame.image.load("Level.jpg").convert()   #Uploads Images
     explosion  = pygame.image.load("explosion.png").convert()
     explosion.set_colorkey(ALPHA)
     
@@ -98,7 +98,6 @@ def main():
                     backgroundcoord = 1
                     obdiro = 0b1011
                     indiro = 0b0111
-                    player.rotate(["Left","LeftDown"],["Right","RightDown"],"LeftUp","RightUp", player.imageLU, player.imageRU)
 
                 if event.key == pygame.K_DOWN:
                     player.easy = False
@@ -107,7 +106,6 @@ def main():
                     player.rotatable = True
                     obdiro = 0b0111
                     indiro = 0b1011
-                    player.rotate(["Right","LeftUp"],["Left","RightUp"],"LeftDown","RightDown", player.imageLD, player.imageRD)
                     
 
         if player.change[0] > 0 or player.change[0] < 0:    #Allows Player to move on only one axis at a time    

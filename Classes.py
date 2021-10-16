@@ -18,7 +18,7 @@ class Player(pygame.sprite.Sprite):         #Create Player
         self.easy = True        #Rotate to left or right
         self.speed = 4
         self.x = 0
-        self.imageR  = pygame.image.load("robot2.png").convert()        #Preloads all rotated images
+        self.imageR  = pygame.image.load("explorador.png").convert()        #Preloads all rotated images
         self.imageL  = pygame.transform.flip(self.imageR, True, False)
         self.imageRU = pygame.transform.rotate(self.imageR,  90)
         self.imageLU = pygame.transform.rotate(self.imageL, -90)
@@ -65,7 +65,7 @@ class Player(pygame.sprite.Sprite):         #Create Player
 class Enemy1(pygame.sprite.Sprite):#Create Enemy
     def __init__(self):
         super().__init__()
-        self.imagel = pygame.image.load("enemy.png").convert()      
+        self.imagel = pygame.image.load("serpiente.png").convert()      
         self.imager = pygame.transform.flip(self.imagel,True,False)
         self.image = self.imager
         self.image.set_colorkey(ALPHA)
@@ -76,7 +76,7 @@ class Enemy1(pygame.sprite.Sprite):#Create Enemy
 class Objective(pygame.sprite.Sprite):#Create Objective
     def __init__(self):
         super().__init__()
-        self.image  = pygame.image.load("Crystal.png").convert()
+        self.image  = pygame.image.load("notes.png").convert()
         self.image.set_colorkey(ALPHA)
         self.rect   = self.image.get_rect()
         self.coord  = [[0,400],[400,600],[1000,500]]
@@ -85,7 +85,7 @@ class Objective(pygame.sprite.Sprite):#Create Objective
 class Obstacle(pygame.sprite.Sprite):#Create Obstacle
     def __init__(self):
         super().__init__()
-        self.image  = pygame.image.load("boulder.png").convert()
+        self.image  = pygame.image.load("roca.png").convert()
         self.image.set_colorkey(ALPHA)
         self.coord  = [[1200,300],[1200,400],[1200,500],[1200,600],
                        [0,300],[100,300],[0,500],[500,500],[600,500],[700,500],
