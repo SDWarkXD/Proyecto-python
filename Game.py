@@ -228,11 +228,6 @@ def main():
 
     main()                                  #run game
 
-if __name__ == "__main__":                  #Run game when opened
-    main()
-
-
-
 
 
                 
