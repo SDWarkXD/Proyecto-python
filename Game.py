@@ -8,6 +8,9 @@ WHITE = (255, 255, 255)
 BLUE  = (  0,   0, 255)
 ALPHA = (255,   0, 255)
 
+GREEN = (188, 202, 126)
+GREENBR = (202, 223, 189)
+
 FILL  = "I Don't Know!"                                     #My Filler Variable
 
 def main():
@@ -26,8 +29,12 @@ def main():
     explosion.set_colorkey(ALPHA)
     
     gameover = pygame.image.load("game over.png").convert_alpha()
-    youwin   = pygame.image.load("you win.png").convert_alpha()
-    
+    youwin   = pygame.image.load("nextlevel.png").convert_alpha()
+    object1find   = pygame.image.load("img/maya1.png").convert_alpha()
+    lista_con_objetos = [True, True, True, True, True]
+
+    pausevar = False
+
 
     done = False                                            #Set While Variable
     clock = pygame.time.Clock()
@@ -39,6 +46,8 @@ def main():
     obslist = pygame.sprite.Group()
     enemylist = pygame.sprite.Group()
     deathlist = pygame.sprite.Group()
+      # Inicialización de la fuente
+    fuente = pygame.font.Font(None, 60)
 
     for obj in range(3):                                    #Creates Entities and Adds them to Lists
         objective = Classes.Objective()
@@ -59,6 +68,9 @@ def main():
         enemy.rect.y = enecoord[ene][1]
         enemylist.add(enemy)
         deathlist.add(enemy)
+
+    
+            
 
 
     while not done:
@@ -216,9 +228,29 @@ def main():
                 screen.blit(explosion,player.pos)
                 deathtime -=1
             player.life = 0
+
+                #If all objectives obtained
+        texto = f"Puntuación : {player.inventory}00"
+        letrero = fuente.render(texto, False, WHITE)
+        screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 50))  
+
+        texto = f"Nivel             : 001"
+        letrero = fuente.render(texto, False, WHITE)
+        screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 100))     
         
+ 
+        
+
+
         if player.life == 0:                #If dead
             screen.blit(gameover, [0,0])      #Draw Game Over
+            
+        if player.inventory == 1 and lista_con_objetos[0]:           #If all objectives obtained
+            screen.blit(object1find, [0,0])
+            pygame.display.flip()        #Draw You Win!
+            time.sleep(2)
+            lista_con_objetos[0]=False
+            
         if player.inventory == 3:           #If all objectives obtained
             screen.blit(youwin, [0,0])        #Draw You Win!
 
