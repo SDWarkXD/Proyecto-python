@@ -4,7 +4,9 @@ from tkinter.ttk import*
 import tkinter.font as tkFont
 import tkinter as tk
 from tkinter import ttk
-import Game                                              #Imports modules
+import Game                   
+from tkinter import messagebox
+                           #Imports modules
 def registrarse():
     root=Tk()
 
@@ -43,11 +45,21 @@ def registrarse():
         cur.execute( "SELECT * FROM usuarios where usuario = '"+username_login_entry.get()+"' and contraseña = '"+password__login_entry.get()+"'" )
         row = cur.fetchone()
         if row == None:
-            print("There are no results for this query")
-        else:
-            print(row)
+            
+            cur = miConexion.cursor()
+            ##mycursor = mydb.cursor()
+            sql = "INSERT INTO usuarios (usuario, contraseña) VALUES (%s, %s)"
+            val = (username_login_entry.get(),password__login_entry.get())
+            cur.execute(sql, val)
+
+            miConexion.commit()
             root.destroy()
             Game.main()
+
+
+        else:
+            messagebox.showinfo(message="El nombre de usuario o contraseña es incorrecto", title="Error")
+
         miConexion.close()
 
     Button(root, text="Crear Cuenta", command = helloCallBack, style="MyButton.TButton").place(x=700, y=500)

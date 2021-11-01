@@ -2,7 +2,6 @@ import Classes                                              #Imports modules
 import pygame
 import random
 import time
-import Game2
 
 BLACK = (  0,   0,   0)                                     #Sets Color Presets
 WHITE = (255, 255, 255)
@@ -25,7 +24,7 @@ def main():
     player  = Classes.Player()                              #Creates Instance of Player and Tunnel System
     tunnels = Classes.Tiles()
         
-    background = pygame.image.load("Level.jpg").convert()   #Uploads Images
+    background = pygame.image.load("Level2.png").convert()   #Uploads Images
     explosion  = pygame.image.load("explosion.png").convert()
     explosion.set_colorkey(ALPHA)
     
@@ -127,7 +126,6 @@ def main():
                 if event.key == pygame.K_SPACE:
                     if player.inventory == 3 :
                         done = True
-                        Game2.main()                 
 
         if player.change[0] > 0 or player.change[0] < 0:    #Allows Player to move on only one axis at a time    
             player.change[1] = 0
@@ -272,7 +270,6 @@ def main():
             time.sleep(2)
             lista_con_objetos[2]=False
                #If all objectives obtained
-        if player.inventory == 3: 
             screen.blit(youwin, [0,0])        #Draw You Win!
 
 
