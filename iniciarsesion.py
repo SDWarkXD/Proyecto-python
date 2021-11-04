@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-import Game                                              #Imports modules
+import Game1                                              #Imports modules
 def iniciarSesion():
     root=Tk()
 
@@ -49,7 +49,7 @@ def iniciarSesion():
         else:
             print(row)
             root.destroy()
-            Game.main()
+            Game1.main()
         miConexion.close()
 
     Button(root, text="Iniciar", command = helloCallBack, style="MyButton.TButton").place(x=700, y=500)

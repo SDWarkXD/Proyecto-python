@@ -1,8 +1,9 @@
-import Classes2                                              #Imports modules
+import Classes3                                             #Imports modules
 import pygame
 import random
 import time
-import Game3
+import Game4
+
 BLACK = (  0,   0,   0)                                     #Sets Color Presets
 WHITE = (255, 255, 255)
 BLUE  = (  0,   0, 255)
@@ -21,19 +22,19 @@ def main():
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Crusader Dig")              #Title
 
-    player  = Classes2.Player()                              #Creates Instance of Player and Tunnel System
-    tunnels = Classes2.Tiles()
+    player  = Classes3.Player()                              #Creates Instance of Player and Tunnel System
+    tunnels = Classes3.Tiles()
         
-    background = pygame.image.load("Level2.png").convert()   #Uploads Images
+    background = pygame.image.load("Level3.png").convert()   #Uploads Images
     explosion  = pygame.image.load("explosion.png").convert()
     explosion.set_colorkey(ALPHA)
     
     gameover = pygame.image.load("game over.png").convert_alpha()
     youwin   = pygame.image.load("nextlevel.png").convert_alpha()
-    object1find   = pygame.image.load("img/Olmeca1.png").convert_alpha()
-    object2find   = pygame.image.load("img/Olmeca2.png").convert_alpha()
-    object3find   = pygame.image.load("img/Olmeca3.png").convert_alpha()
-    object5find   = pygame.image.load("img/Olmeca5.png").convert_alpha()
+    object1find   = pygame.image.load("img/Teotihuacan1.png").convert_alpha()
+    object2find   = pygame.image.load("img/Teotihuacan2.png").convert_alpha()
+    object3find   = pygame.image.load("img/Teotihuacan3.png").convert_alpha()
+    object5find   = pygame.image.load("img/Teotihuacan5.png").convert_alpha()
     lista_con_objetos = [True, True, True, True, True]
 
     pausevar = False
@@ -53,20 +54,20 @@ def main():
     fuente = pygame.font.Font(None, 60)
 
     for obj in range(3):                                    #Creates Entities and Adds them to Lists
-        objective = Classes2.Objective()
+        objective = Classes3.Objective()
         objective.rect.x = objective.coord[obj][0]
         objective.rect.y = objective.coord[obj][1]
         objlist.add(objective)
             
     for obs in range(15):
-        obstacle = Classes2.Obstacle()
+        obstacle = Classes3.Obstacle()
         obstacle.rect.x = obstacle.coord[obs][0]
         obstacle.rect.y = obstacle.coord[obs][1]
         obslist.add(obstacle)
 
     for ene in range(2):
         enecoord = [[400,200],[800,200]]
-        enemy = Classes2.Enemy1()
+        enemy = Classes3.Enemy1()
         enemy.rect.x = enecoord[ene][0]
         enemy.rect.y = enecoord[ene][1]
         enemylist.add(enemy)
@@ -127,7 +128,7 @@ def main():
                     if player.inventory == 3 :
                         done = True
                         pygame.quit()
-                        Game3.main()               
+                        Game4.main()     
 
         if player.change[0] > 0 or player.change[0] < 0:    #Allows Player to move on only one axis at a time    
             player.change[1] = 0
@@ -243,7 +244,7 @@ def main():
         letrero = fuente.render(texto, False, WHITE)
         screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 10))  
 
-        texto = f"Nivel             : 002"
+        texto = f"Nivel             : 003"
         letrero = fuente.render(texto, False, WHITE)
         screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 60))     
         
@@ -276,7 +277,7 @@ def main():
             time.sleep(2)
 
         if player.inventory == 3: 
-            screen.blit(youwin, [0,0])        #Draw You Win!
+            screen.blit(youwin, [0,0])         #Draw You Win!
 
 
         pygame.display.flip()               #Update Screen

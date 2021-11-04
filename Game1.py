@@ -1,8 +1,9 @@
-import Classes2                                              #Imports modules
+import Classes1                                              #Imports modules
 import pygame
 import random
 import time
-import Game3
+import Game2
+
 BLACK = (  0,   0,   0)                                     #Sets Color Presets
 WHITE = (255, 255, 255)
 BLUE  = (  0,   0, 255)
@@ -21,19 +22,18 @@ def main():
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Crusader Dig")              #Title
 
-    player  = Classes2.Player()                              #Creates Instance of Player and Tunnel System
-    tunnels = Classes2.Tiles()
+    player  = Classes1.Player()                              #Creates Instance of Player and Tunnel System
+    tunnels = Classes1.Tiles()
         
-    background = pygame.image.load("Level2.png").convert()   #Uploads Images
+    background = pygame.image.load("Level.jpg").convert()   #Uploads Images
     explosion  = pygame.image.load("explosion.png").convert()
     explosion.set_colorkey(ALPHA)
     
     gameover = pygame.image.load("game over.png").convert_alpha()
     youwin   = pygame.image.load("nextlevel.png").convert_alpha()
-    object1find   = pygame.image.load("img/Olmeca1.png").convert_alpha()
-    object2find   = pygame.image.load("img/Olmeca2.png").convert_alpha()
-    object3find   = pygame.image.load("img/Olmeca3.png").convert_alpha()
-    object5find   = pygame.image.load("img/Olmeca5.png").convert_alpha()
+    object1find   = pygame.image.load("img/Azteca1.png").convert_alpha()
+    object2find   = pygame.image.load("img/Azteca2.png").convert_alpha()
+    object5find   = pygame.image.load("img/Azteca5.png").convert_alpha()
     lista_con_objetos = [True, True, True, True, True]
 
     pausevar = False
@@ -52,21 +52,21 @@ def main():
       # Inicialización de la fuente
     fuente = pygame.font.Font(None, 60)
 
-    for obj in range(3):                                    #Creates Entities and Adds them to Lists
-        objective = Classes2.Objective()
+    for obj in range(2):                                    #Creates Entities and Adds them to Lists
+        objective = Classes1.Objective()
         objective.rect.x = objective.coord[obj][0]
         objective.rect.y = objective.coord[obj][1]
         objlist.add(objective)
             
     for obs in range(15):
-        obstacle = Classes2.Obstacle()
+        obstacle = Classes1.Obstacle()
         obstacle.rect.x = obstacle.coord[obs][0]
         obstacle.rect.y = obstacle.coord[obs][1]
         obslist.add(obstacle)
 
-    for ene in range(2):
-        enecoord = [[400,200],[800,200]]
-        enemy = Classes2.Enemy1()
+    for ene in range(1):
+        enecoord = [[800,500],[800,500]]
+        enemy = Classes1.Enemy1()
         enemy.rect.x = enecoord[ene][0]
         enemy.rect.y = enecoord[ene][1]
         enemylist.add(enemy)
@@ -124,10 +124,10 @@ def main():
                     indiro = 0b1011
 
                 if event.key == pygame.K_SPACE:
-                    if player.inventory == 3 :
+                    if player.inventory == 2 :
                         done = True
                         pygame.quit()
-                        Game3.main()               
+                        Game2.main()                 
 
         if player.change[0] > 0 or player.change[0] < 0:    #Allows Player to move on only one axis at a time    
             player.change[1] = 0
@@ -137,8 +137,8 @@ def main():
         player.pos[0] += player.change[0]               #Move Player
         player.pos[1] += player.change[1]
         
-        if player.pos[1] < 0:                         #Set limits at edges of screen
-            player.pos[1] = 0
+        if player.pos[1] < 200:                         #Set limits at edges of screen
+            player.pos[1] = 200
         if player.pos[1] > 600:
             player.pos[1] = 600
         if player.pos[0] < 0:
@@ -156,7 +156,7 @@ def main():
 
         if player.change == [0,0]:                                                   #Adds tunnels
             player.tunnelpos[0] = player.pos[0]//100
-            player.tunnelpos[1] = player.pos[1]//100 
+            player.tunnelpos[1] = player.pos[1]//100 -2
             if not player.tunnelpos[1] == 0:
                 tunnels.addtunnel(player.tunnelpos[0], player.tunnelpos[1],obdiro)
         else:
@@ -183,7 +183,7 @@ def main():
                 enemy.change[:] = random.choice([(-1, 0), (1, 0), (0, 1), (0, -1)])#Randomly choose direction
             if (enemy.rect.y + enemy.rect.x) % 100 == 0:
                 x = enemy.rect.x // 100
-                y = enemy.rect.y // 100
+                y = enemy.rect.y // 100 - 2
                 tile = tunnels.tilemap[y][x]
                 if random.random() > 0.66:
                     enemy.change[:] = [0, 0]                    
@@ -220,7 +220,7 @@ def main():
         
         for row in range(13):                           #Draw Tunnels
             for column in range(12):
-                screen.blit(tunnels.texture[tunnels.tilemap[row][column]],(column*100,row*100))
+                screen.blit(tunnels.texture[tunnels.tilemap[row][column]],(column*100,row*100+200))
 
         objlist.draw(screen)                            #Draw Objectives
         obslist.draw(screen)                            #Draw Obstacles
@@ -243,7 +243,7 @@ def main():
         letrero = fuente.render(texto, False, WHITE)
         screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 10))  
 
-        texto = f"Nivel             : 002"
+        texto = f"Nivel             : 001"
         letrero = fuente.render(texto, False, WHITE)
         screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 60))     
         
@@ -265,24 +265,18 @@ def main():
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
             lista_con_objetos[1]=False
-             
-        if player.inventory == 3 and lista_con_objetos[2]:           #If all objectives obtained
-            screen.blit(object3find, [0,0])
-            pygame.display.flip()        #Draw You Win!
-            time.sleep(2)
-            lista_con_objetos[2]=False
             screen.blit(object5find, [0,0])
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
 
-        if player.inventory == 3: 
+        if player.inventory == 2: 
             screen.blit(youwin, [0,0])        #Draw You Win!
 
 
         pygame.display.flip()               #Update Screen
         clock.tick(60)                      #Set Framerate
 
-# main()
+main()
 
 
                 
