@@ -3,6 +3,8 @@ import pygame
 import random
 import time
 import Game2
+import mysql.connector
+from tkinter import messagebox
 
 BLACK = (  0,   0,   0)                                     #Sets Color Presets
 WHITE = (255, 255, 255)
@@ -14,7 +16,7 @@ GREENBR = (202, 223, 189)
 
 FILL  = "I Don't Know!"                                     #My Filler Variable
 
-def main():
+def main(puntuacion,nombre):
     """ Main Function of the Game """
     pygame.init()
 
@@ -22,7 +24,7 @@ def main():
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Crusader Dig")              #Title
 
-    player  = Classes1.Player()                              #Creates Instance of Player and Tunnel System
+    player  = Classes1.Player(puntuacion,nombre)                              #Creates Instance of Player and Tunnel System
     tunnels = Classes1.Tiles()
         
     background = pygame.image.load("Level.jpg").convert()   #Uploads Images
@@ -86,7 +88,7 @@ def main():
             if event.type == pygame.KEYDOWN:        #Restart Game
                 if event.key == pygame.K_ESCAPE:
                     done = True
-                    main()
+                    main(0,player.name)
                 
                 if event.key == pygame.K_LEFT:
                     player.easy = True
@@ -127,7 +129,7 @@ def main():
                     if player.inventory == 2 :
                         done = True
                         pygame.quit()
-                        Game2.main()                 
+                        Game2.main(player.inventory,player.name)                 
 
         if player.change[0] > 0 or player.change[0] < 0:    #Allows Player to move on only one axis at a time    
             player.change[1] = 0
@@ -270,13 +272,20 @@ def main():
             time.sleep(2)
 
         if player.inventory == 2: 
+            miConexion = mysql.connector.connect( host='localhost', user= 'root', passwd='', db='kukulcan' )
+            cur = miConexion.cursor()
+            cur.execute( "UPDATE usuarios set nivel = '"+str(1)+"', puntuacion = '"+str(player.inventory)+"' WHERE usuario = '"+player.name+"'" )
+            row = cur.fetchone()
+            miConexion.commit()
+            miConexion.close()
             screen.blit(youwin, [0,0])        #Draw You Win!
+
 
 
         pygame.display.flip()               #Update Screen
         clock.tick(60)                      #Set Framerate
 
-main()
+#main()
 
 
                 

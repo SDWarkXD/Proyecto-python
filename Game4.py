@@ -2,7 +2,8 @@ import Classes4                                             #Imports modules
 import pygame
 import random
 import time
-
+import mysql.connector
+import Game1
 
 BLACK = (  0,   0,   0)                                     #Sets Color Presets
 WHITE = (255, 255, 255)
@@ -14,7 +15,7 @@ GREENBR = (202, 223, 189)
 
 FILL  = "I Don't Know!"                                     #My Filler Variable
 
-def main():
+def main(puntuacion,nombre):
     """ Main Function of the Game """
     pygame.init()
 
@@ -22,7 +23,7 @@ def main():
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Crusader Dig")              #Title
 
-    player  = Classes4.Player()                              #Creates Instance of Player and Tunnel System
+    player  = Classes4.Player(puntuacion,nombre)                              #Creates Instance of Player and Tunnel System
     tunnels = Classes4.Tiles()
         
     background = pygame.image.load("Level4.png").convert()   #Uploads Images
@@ -30,7 +31,7 @@ def main():
     explosion.set_colorkey(ALPHA)
     
     gameover = pygame.image.load("game over.png").convert_alpha()
-    youwin   = pygame.image.load("nextlevel.png").convert_alpha()
+    youwin   = pygame.image.load("you win.png").convert_alpha()
     object1find   = pygame.image.load("img/maya1.png").convert_alpha()
     object2find   = pygame.image.load("img/maya2.png").convert_alpha()
     object3find   = pygame.image.load("img/maya3.png").convert_alpha()
@@ -88,7 +89,7 @@ def main():
             if event.type == pygame.KEYDOWN:        #Restart Game
                 if event.key == pygame.K_ESCAPE:
                     done = True
-                    main()
+                    main(8,player.name)
                 
                 if event.key == pygame.K_LEFT:
                     player.easy = True
@@ -126,9 +127,10 @@ def main():
                     indiro = 0b1011
 
                 if event.key == pygame.K_SPACE:
-                    if player.inventory == 4 :
+                    if player.inventory == 12 :
                         done = True
-                        main()
+                        pygame.quit()
+                        Game1.main(0,player.name)
 
         if player.change[0] > 0 or player.change[0] < 0:    #Allows Player to move on only one axis at a time    
             player.change[1] = 0
@@ -240,7 +242,7 @@ def main():
             player.life = 0
 
                 #If all objectives obtained
-        texto = f"Puntuación : {player.inventory +8}00"
+        texto = f"Puntuación : {player.inventory}00"
         letrero = fuente.render(texto, False, WHITE)
         screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 10))  
 
@@ -255,25 +257,25 @@ def main():
         if player.life == 0:                #If dead
             screen.blit(gameover, [0,0])      #Draw Game Over
             
-        if player.inventory == 1 and lista_con_objetos[0]:           #If all objectives obtained
+        if player.inventory == 9 and lista_con_objetos[0]:           #If all objectives obtained
             screen.blit(object1find, [0,0])
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
             lista_con_objetos[0]=False
              
-        if player.inventory == 2 and lista_con_objetos[1]:           #If all objectives obtained
+        if player.inventory == 10 and lista_con_objetos[1]:           #If all objectives obtained
             screen.blit(object2find, [0,0])
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
             lista_con_objetos[1]=False
 
-        if player.inventory == 3 and lista_con_objetos[2]:           #If all objectives obtained
+        if player.inventory == 11 and lista_con_objetos[2]:           #If all objectives obtained
             screen.blit(object3find, [0,0])
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
             lista_con_objetos[2]=False
              
-        if player.inventory == 4 and lista_con_objetos[3]:           #If all objectives obtained
+        if player.inventory == 12 and lista_con_objetos[3]:           #If all objectives obtained
             screen.blit(object4find, [0,0])
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
@@ -282,14 +284,20 @@ def main():
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
 
-        if player.inventory == 4: 
+        if player.inventory == 12: 
+            miConexion = mysql.connector.connect( host='localhost', user= 'root', passwd='', db='kukulcan' )
+            cur = miConexion.cursor()
+            cur.execute( "UPDATE usuarios set nivel = '"+str(4)+"', puntuacion = '"+str(0)+"' WHERE usuario = '"+player.name+"'" )
+            row = cur.fetchone()
+            miConexion.commit()
+            miConexion.close()
             screen.blit(youwin, [0,0])      #Draw You Win!
 
 
         pygame.display.flip()               #Update Screen
         clock.tick(60)                      #Set Framerate
 
-# main()
+#main()
 
 
                 

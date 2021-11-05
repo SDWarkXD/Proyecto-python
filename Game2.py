@@ -3,6 +3,7 @@ import pygame
 import random
 import time
 import Game3
+import mysql.connector
 BLACK = (  0,   0,   0)                                     #Sets Color Presets
 WHITE = (255, 255, 255)
 BLUE  = (  0,   0, 255)
@@ -13,7 +14,7 @@ GREENBR = (202, 223, 189)
 
 FILL  = "I Don't Know!"                                     #My Filler Variable
 
-def main():
+def main(puntuacion,nombre):
     """ Main Function of the Game """
     pygame.init()
 
@@ -21,7 +22,7 @@ def main():
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Crusader Dig")              #Title
 
-    player  = Classes2.Player()                              #Creates Instance of Player and Tunnel System
+    player  = Classes2.Player(puntuacion,nombre)                              #Creates Instance of Player and Tunnel System
     tunnels = Classes2.Tiles()
         
     background = pygame.image.load("Level2.png").convert()   #Uploads Images
@@ -86,7 +87,7 @@ def main():
             if event.type == pygame.KEYDOWN:        #Restart Game
                 if event.key == pygame.K_ESCAPE:
                     done = True
-                    main()
+                    main(2,player.name)
                 
                 if event.key == pygame.K_LEFT:
                     player.easy = True
@@ -124,10 +125,10 @@ def main():
                     indiro = 0b1011
 
                 if event.key == pygame.K_SPACE:
-                    if player.inventory == 3 :
+                    if player.inventory == 5 :
                         done = True
                         pygame.quit()
-                        Game3.main()               
+                        Game3.main(player.inventory,player.name)               
 
         if player.change[0] > 0 or player.change[0] < 0:    #Allows Player to move on only one axis at a time    
             player.change[1] = 0
@@ -239,7 +240,7 @@ def main():
             player.life = 0
 
                 #If all objectives obtained
-        texto = f"Puntuación : {player.inventory +2}00"
+        texto = f"Puntuación : {player.inventory}00"
         letrero = fuente.render(texto, False, WHITE)
         screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 10))  
 
@@ -254,19 +255,19 @@ def main():
         if player.life == 0:                #If dead
             screen.blit(gameover, [0,0])      #Draw Game Over
             
-        if player.inventory == 1 and lista_con_objetos[0]:           #If all objectives obtained
+        if player.inventory == 3 and lista_con_objetos[0]:           #If all objectives obtained
             screen.blit(object1find, [0,0])
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
             lista_con_objetos[0]=False
              
-        if player.inventory == 2 and lista_con_objetos[1]:           #If all objectives obtained
+        if player.inventory == 4 and lista_con_objetos[1]:           #If all objectives obtained
             screen.blit(object2find, [0,0])
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
             lista_con_objetos[1]=False
              
-        if player.inventory == 3 and lista_con_objetos[2]:           #If all objectives obtained
+        if player.inventory == 5 and lista_con_objetos[2]:           #If all objectives obtained
             screen.blit(object3find, [0,0])
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
@@ -275,7 +276,13 @@ def main():
             pygame.display.flip()        #Draw You Win!
             time.sleep(2)
 
-        if player.inventory == 3: 
+        if player.inventory == 5: 
+            miConexion = mysql.connector.connect( host='localhost', user= 'root', passwd='', db='kukulcan' )
+            cur = miConexion.cursor()
+            cur.execute( "UPDATE usuarios set nivel = '"+str(2)+"', puntuacion = '"+str(player.inventory)+"' WHERE usuario = '"+player.name+"'" )
+            row = cur.fetchone()
+            miConexion.commit()
+            miConexion.close()
             screen.blit(youwin, [0,0])        #Draw You Win!
 
 

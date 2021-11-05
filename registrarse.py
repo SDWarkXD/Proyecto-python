@@ -4,7 +4,7 @@ from tkinter.ttk import*
 import tkinter.font as tkFont
 import tkinter as tk
 from tkinter import ttk
-import Game                   
+import Game1                   
 from tkinter import messagebox
                            #Imports modules
 def registrarse():
@@ -40,9 +40,10 @@ def registrarse():
     password__login_entry = Entry(root, show= '*', font=fontStyle3)
     password__login_entry.place(x=550, y=400)
     def helloCallBack():
+        usr = username_login_entry.get()
         miConexion = mysql.connector.connect( host='localhost', user= 'root', passwd='', db='kukulcan' )
         cur = miConexion.cursor()
-        cur.execute( "SELECT * FROM usuarios where usuario = '"+username_login_entry.get()+"' and contraseña = '"+password__login_entry.get()+"'" )
+        cur.execute( "SELECT * FROM usuarios where usuario = '"+username_login_entry.get()+"'" )
         row = cur.fetchone()
         if row == None:
             
@@ -54,7 +55,7 @@ def registrarse():
 
             miConexion.commit()
             root.destroy()
-            Game.main()
+            Game1.main(0,usr)
 
 
         else:

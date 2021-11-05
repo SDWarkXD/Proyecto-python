@@ -7,8 +7,9 @@ SUBTILES = 100              #Pixels in Tiles
 ALPHA = (255,   0, 255)     #Set Color Preset
 
 class Player(pygame.sprite.Sprite):         #Create Player                         
-    def __init__(self):                     #Set Attributes and Functions
+    def __init__(self,puntuacion,nombre):                     #Set Attributes and Functions
         super().__init__()
+        self.name = nombre
         self.rotation = "Right"  
         self.rotatable = False  
         self.life = 1
@@ -28,7 +29,7 @@ class Player(pygame.sprite.Sprite):         #Create Player
 
         self.tunnelpos = [2,0]      #Tilemap position
         self.cachetunnel =[2,0]     #Previous Tilemap position
-        self.inventory = 0
+        self.inventory = puntuacion
         self.rect = self.Image.get_rect()#Finds Dimensions from image for collision
         self.deathtime = None
 

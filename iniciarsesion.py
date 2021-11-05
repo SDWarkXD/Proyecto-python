@@ -7,6 +7,10 @@ from tkinter import ttk
 from tkinter import messagebox
 
 import Game1                                              #Imports modules
+import Game2                                              #Imports modules
+import Game3                                              #Imports modules
+import Game4                                              #Imports modules
+
 def iniciarSesion():
     root=Tk()
 
@@ -47,9 +51,21 @@ def iniciarSesion():
             print("There are no results for this query")
             messagebox.showinfo(message="El nombre de usuario o contraseña es incorrecto", title="Error")
         else:
-            print(row)
+            #print(row[0])
+            #print(row[1])
+            #print(row[2])
+            #print(row[3])
             root.destroy()
-            Game1.main()
+            if row[2] == 0:
+                Game1.main(row[3],row[0])
+            elif row[2] == 1:
+                Game2.main(row[3],row[0])
+            elif row[2] == 2:
+                Game3.main(row[3],row[0])
+            elif row[2] == 3:
+                Game4.main(row[3],row[0])
+            elif row[2] == 4:
+                Game1.main(row[3],row[0])    
         miConexion.close()
 
     Button(root, text="Iniciar", command = helloCallBack, style="MyButton.TButton").place(x=700, y=500)
