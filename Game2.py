@@ -239,7 +239,7 @@ def main():
             player.life = 0
 
                 #If all objectives obtained
-        texto = f"Puntuación : {player.inventory}00"
+        texto = f"Puntuación : {player.inventory +2}00"
         letrero = fuente.render(texto, False, WHITE)
         screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 10))  
 

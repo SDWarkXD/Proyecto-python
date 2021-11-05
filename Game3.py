@@ -65,8 +65,8 @@ def main():
         obstacle.rect.y = obstacle.coord[obs][1]
         obslist.add(obstacle)
 
-    for ene in range(2):
-        enecoord = [[400,200],[800,200]]
+    for ene in range(3):
+        enecoord = [[200,300],[700,500], [400,400]]
         enemy = Classes3.Enemy1()
         enemy.rect.x = enecoord[ene][0]
         enemy.rect.y = enecoord[ene][1]
@@ -240,7 +240,7 @@ def main():
             player.life = 0
 
                 #If all objectives obtained
-        texto = f"Puntuación : {player.inventory}00"
+        texto = f"Puntuación : {player.inventory + 5}00"
         letrero = fuente.render(texto, False, WHITE)
         screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 10))  
 
@@ -283,7 +283,6 @@ def main():
         pygame.display.flip()               #Update Screen
         clock.tick(60)                      #Set Framerate
 
-# main()
 
 
                 

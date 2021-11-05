@@ -54,20 +54,20 @@ def main():
       # Inicialización de la fuente
     fuente = pygame.font.Font(None, 60)
 
-    for obj in range(3):                                    #Creates Entities and Adds them to Lists
+    for obj in range(4):                                    #Creates Entities and Adds them to Lists
         objective = Classes4.Objective()
         objective.rect.x = objective.coord[obj][0]
         objective.rect.y = objective.coord[obj][1]
         objlist.add(objective)
             
-    for obs in range(15):
+    for obs in range(20):
         obstacle = Classes4.Obstacle()
         obstacle.rect.x = obstacle.coord[obs][0]
         obstacle.rect.y = obstacle.coord[obs][1]
         obslist.add(obstacle)
 
-    for ene in range(2):
-        enecoord = [[400,200],[800,200]]
+    for ene in range(4):
+        enecoord = [[400,200],[800,200],[600,400],[300,400]]
         enemy = Classes4.Enemy1()
         enemy.rect.x = enecoord[ene][0]
         enemy.rect.y = enecoord[ene][1]
@@ -240,7 +240,7 @@ def main():
             player.life = 0
 
                 #If all objectives obtained
-        texto = f"Puntuación : {player.inventory}00"
+        texto = f"Puntuación : {player.inventory +8}00"
         letrero = fuente.render(texto, False, WHITE)
         screen.blit(letrero, (900- fuente.size(texto)[0] / 2, 10))  
 
@@ -289,7 +289,7 @@ def main():
         pygame.display.flip()               #Update Screen
         clock.tick(60)                      #Set Framerate
 
-main()
+# main()
 
 
                 
