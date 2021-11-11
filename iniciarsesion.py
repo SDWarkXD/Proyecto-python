@@ -38,9 +38,11 @@ def iniciarSesion():
         font=("Malgun Gothic", 40,"bold")
     )
 
-    username_login_entry = Entry(root, font=fontStyle3)
+    entry_text = StringVar()
+    username_login_entry = Entry(root, font=fontStyle3, textvariable = entry_text)
     username_login_entry.place(x=550, y=300)
-    password__login_entry = Entry(root, show= '*', font=fontStyle3)
+    entry_text_pass = StringVar()
+    password__login_entry = Entry(root, show= '*', font=fontStyle3, textvariable = entry_text_pass)
     password__login_entry.place(x=550, y=400)
     def helloCallBack():
         miConexion = mysql.connector.connect( host='localhost', user= 'root', passwd='', db='kukulcan' )
@@ -69,6 +71,20 @@ def iniciarSesion():
         miConexion.close()
 
     Button(root, text="Iniciar", command = helloCallBack, style="MyButton.TButton").place(x=700, y=500)
+
+    def limitador(entry_text):
+        if len(entry_text.get()) > 0:
+            #donde esta el :5 limitas la cantidad d caracteres
+            entry_text.set(entry_text.get()[:5])
+
+    entry_text.trace("w", lambda *args: limitador(entry_text))
+
+    def limitadorPass(entry_text_pass):
+        if len(entry_text_pass.get()) > 0:
+            #donde esta el :5 limitas la cantidad d caracteres
+            entry_text_pass.set(entry_text_pass.get()[:5])
+
+    entry_text_pass.trace("w", lambda *args: limitadorPass(entry_text_pass))
 
     
     root.mainloop() 
