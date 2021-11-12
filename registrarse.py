@@ -42,27 +42,30 @@ def registrarse():
     password__login_entry.place(x=550, y=400)
     def helloCallBack():
         usr = username_login_entry.get()
-        miConexion = mysql.connector.connect( host='localhost', user= 'root', passwd='', db='kukulcan' )
-        cur = miConexion.cursor()
-        cur.execute( "SELECT * FROM usuarios where usuario = '"+username_login_entry.get()+"'" )
-        row = cur.fetchone()
-        if row == None:
-            
+        if(len(usr)>4)and(len(password__login_entry.get())>4):
+            miConexion = mysql.connector.connect( host='localhost', user= 'root', passwd='', db='kukulcan' )
             cur = miConexion.cursor()
-            ##mycursor = mydb.cursor()
-            sql = "INSERT INTO usuarios (usuario, contraseña) VALUES (%s, %s)"
-            val = (username_login_entry.get(),password__login_entry.get())
-            cur.execute(sql, val)
+            cur.execute( "SELECT * FROM usuarios where usuario = '"+username_login_entry.get()+"'" )
+            row = cur.fetchone()
+            if row == None:
+                
+                cur = miConexion.cursor()
+                ##mycursor = mydb.cursor()
+                sql = "INSERT INTO usuarios (usuario, contraseña) VALUES (%s, %s)"
+                val = (username_login_entry.get(),password__login_entry.get())
+                cur.execute(sql, val)
 
-            miConexion.commit()
-            root.destroy()
-            Game1.main(0,usr)
+                miConexion.commit()
+                root.destroy()
+                Game1.main(0,usr)
 
 
+            else:
+                messagebox.showinfo(message="El nombre de usuario ya existe", title="Error")
+            miConexion.close()
         else:
-            messagebox.showinfo(message="El nombre de usuario o contraseña es incorrecto", title="Error")
+            messagebox.showinfo(message="El usuario y la contraseña deben de ser de 5 caracteres", title="Error")
 
-        miConexion.close()
 
     Button(root, text="Crear Cuenta", command = helloCallBack, style="MyButton.TButton").place(x=700, y=500)
 
