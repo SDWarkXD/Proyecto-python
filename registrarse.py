@@ -64,7 +64,7 @@ def registrarse():
                 messagebox.showinfo(message="El nombre de usuario ya existe", title="Error")
             miConexion.close()
         else:
-            messagebox.showinfo(message="El usuario y la contraseña deben de ser de 5 caracteres", title="Error")
+            messagebox.showinfo(message="El usuario y la contraseña deben de ser de minimo 5 caracteres", title="Error")
 
 
     Button(root, text="Crear Cuenta", command = helloCallBack, style="MyButton.TButton").place(x=700, y=500)
@@ -72,14 +72,14 @@ def registrarse():
     def limitador(entry_text):
         if len(entry_text.get()) > 0:
             #donde esta el :5 limitas la cantidad d caracteres
-            entry_text.set(entry_text.get()[:5])
+            entry_text.set(entry_text.get()[:10])
 
     entry_text.trace("w", lambda *args: limitador(entry_text))
 
     def limitadorPass(entry_text_pass):
         if len(entry_text_pass.get()) > 0:
             #donde esta el :5 limitas la cantidad d caracteres
-            entry_text_pass.set(entry_text_pass.get()[:5])
+            entry_text_pass.set(entry_text_pass.get()[:10])
 
     entry_text_pass.trace("w", lambda *args: limitadorPass(entry_text_pass))
 
